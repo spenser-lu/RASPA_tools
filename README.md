@@ -19,7 +19,7 @@ zeo++是一款功能强大的多孔材料结构分析工具，此脚本可极大
 zeo++ is a powerful tool for structural analysis of porous materials. This script greatly simplifies the operation of calculating structural parameters of materials with zeo++, and allows to perform large scale high throughput simulations in batch, supports multi-threading, and can automatically complete summary statistics of the results. There are three files in `zeo_calculate/`, `config.ini` is the configuration file, `zeo_functions.py` is a collection of tool classes and functions, and `structral_parameters_screen.py` is the main function to run the program.
 
 首先根据自己的需求更改`config.ini`中的参数，注意`zeo++_dir`和`cif_dir`最好使用绝对路径，`number_of_threads`建议设定为电脑的核心数。
-First change the parameters in `config.ini` to suit your needs, note that `zeo++_dir` and `cif_dir` are best set to absolute paths, and `number_of_threads` is recommended to be set to the number of cores in your computer.
+First, change the parameters in `config.ini` to suit your needs, note that `zeo++_dir` and `cif_dir` are best set to absolute paths, and `number_of_threads` is recommended to be set to the number of cores in your computer.
 
 ```ini
 [ZEO_CONFIG]
