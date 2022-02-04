@@ -1,11 +1,12 @@
 # RASPA_tools
-适用于多孔材料吸附性质模拟软件——RASPA的Python脚本工具集合，可用于并行计算等温线、高通量模拟，zeo++参数自动化计算、批量结果分析等。A collection of Python scripting tools for RASPA, which can be used for parallel calculation of isotherms, high-throughput simulation, automatic calculation of structural parameters, batch result analysis, etc.
+适用于多孔材料吸附性质模拟软件——RASPA的Python脚本工具集合，可用于并行计算等温线、高通量模拟，zeo++参数自动化计算、批量结果分析等。
+A collection of Python scripting tools for RASPA, which can be used for parallel calculation of isotherms, high-throughput simulation, automatic calculation of structural parameters, batch result analysis, etc.
 
 ## 项目结构 (Structure)
 ```
 ├── raspa_parse/   
   ├── raspa_parse.py      //用于解析RASPA输出文件的工具类
-├── zeo_calculate/        //使用zeo++计算结构参数的脚本
+├── zeo_calculate/        //使用zeo++计算结构参数
   ├── config.ini          //配置文件
   ├── zeo_functions.py    //一些工具类和函数的封装
   ├── structral_parameters_screen.py  //用于计算结构参数的主程序
@@ -59,4 +60,38 @@ python structral_parameters_screen.py
 ```
 
 如果配置正确的话，程序会显示进度条，结束之后会在控制台输出"Finish !"，此时可以在当前目录下看到`result.csv`和`zeo_results`，分别是计算结果汇总和zeo++的输出文件。
-If the configuration is correct, the program will display a progress bar and output "Finish !" in the console when it finishes. , you can see `result.csv` and `zeo_results` in the current directory, which are the summary of the calculation results and the output file of zeo++, respectively.
+If the configuration is correct, the program will display a progress bar and output "Finish !" in the console when it finishes, you can see `result.csv` and `zeo_results` in the current directory, which are the summary of the calculation results and the output file of zeo++, respectively.
+
+### raspa_parse
+`raspa_parse.py`提供了简洁友好的API，用于解析RASPA输出文件。`RASPA_Output_Data`是核心类，封装了一系列解析方法，其构造器需传入RASPA输出文件的字符串作为参数。
+`raspa_parse.py` provides concise and friendly APIs for parsing RASPA output files. `RASPA_Output_Data` is the core class that encapsulates a set of parsing methods. Its constructor takes a string as an argument from the RASPA output file.
+
+|Method|Parameter|Function|Return Value|
+| ---- | ---- | ---- | ---- |
+get_components()|None|get components in the output file|List[string: component name]|
+|is_finished()|None|Determine whether the output file is finished|True if done, False otherwise|
+|get_warnings()|None|get warnings in the output file|List[string: warning name]|
+|get_pressure()|None|get pressure of output file|string:pressure,the unit is Pa|
+|get_absolute_adsorption(unit)|unit:The unit of adsorption capacity, optional values:"mol/uc","cm\^3/g","mol/kg","mg/g","cm\^3/cm\^3",default is "cm\^3/g"|get absolute adsorption capacities|Dict:{component_name:adsorption_capacity}|
+|get_excess_adsorption(unit)|unit:The unit of adsorption capacity, optional values:"mol/uc","cm\^3/g","mol/kg","mg/g","cm\^3/cm\^3",default is "cm\^3/g"|get excess adsorption capacities, If `HeliumViodFraction` is not specified in the `simulation.input`,  the result is the same as `get_absolute_adsorption(unit)` |Dict:{component_name:adsorption_capacity}|
+|get_adsorption_heat()|None|get adsorption heat (KJ/mol) of components in the output file|Dict:{component_name:heat}|
+|get_henry_coefficient()|None|get adsorption heat (mol/kg/Pa) of components in the output file|Dict:{component_name:heat}|
+
+#### 示例 (example)
+`RASPA_Output_Data`的构造器需传入RASPA输出文件的字符串作为参数。
+`RASPA_Output_Data` 's constructor takes a string as an argument from the RASPA output file.
+
+```python
+from raspa_parse import RASPA_Output_Data
+with open('./your_output.data','r') as f:
+    raspa_str = f.read()
+output = RASPA_Output_Data(raspa_str)
+print(output.is_finished())
+print(output.get_absolute_adsorption())
+
+```
+你可以借助`RASPA_Output_Data`进行快速的批量结果统计，注意当输出文件很大时，会很耗费内存。
+You can use `RASPA_Output_Data` for quick batch result statistics. Note that when the output file is large, it will consume a lot of memory.
+
+
+
