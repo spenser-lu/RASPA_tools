@@ -1,5 +1,6 @@
 # RASPA_tools
 适用于多孔材料吸附性质模拟软件——RASPA的Python脚本工具集合，可用于并行计算等温线、高通量模拟，zeo++参数自动化计算、批量结果分析等。
+
 A collection of Python scripting tools for RASPA, which can be used for parallel calculation of isotherms, high-throughput simulation, automatic calculation of structural parameters, batch result analysis, etc.
 
 ## 项目结构 (Structure)
@@ -14,12 +15,16 @@ A collection of Python scripting tools for RASPA, which can be used for parallel
 ```
 ## 用法 (Usage)
 在使用之前，请在你的电脑上安装Python运行环境，版本3.0以上。
+
 Please install the Python 3.0 or higher version on your computer before using it.
+
 ### zeo_calculate
 zeo++是一款功能强大的多孔材料结构分析工具，此脚本可极大的简化利用zeo++计算材料的结构参数的操作，并可以批量的进行大规模高通量模拟，支持多线程，并可以自动完成对结果的汇总统计。`zeo_calculate/` 里有三个文件，其中`config.ini`为配置文件，`zeo_functions.py`为一些工具类和函数的集合，`structral_parameters_screen.py`是运行程序的主函数。
+
 zeo++ is a powerful tool for structural analysis of porous materials. This script greatly simplifies the operation of calculating structural parameters of materials with zeo++, and allows to perform large scale high throughput simulations in batch, supports multi-threading, and can automatically complete summary statistics of the results. There are three files in `zeo_calculate/`, `config.ini` is the configuration file, `zeo_functions.py` is a collection of tool classes and functions, and `structral_parameters_screen.py` is the main function to run the program.
 
 首先根据自己的需求更改`config.ini`中的参数，注意`zeo++_dir`和`cif_dir`最好使用绝对路径，`number_of_threads`建议设定为电脑的核心数。
+
 First, change the parameters in `config.ini` to suit your needs, note that `zeo++_dir` and `cif_dir` are best set to absolute paths, and `number_of_threads` is recommended to be set to the number of cores in your computer.
 
 ```ini
@@ -53,6 +58,7 @@ porosity_monte_carlo_samples = 100000
 output_file_name = result.csv
 ```
 接下来运行`structral_parameters_screen.py`，注意要和`config.ini`，`zeo_functions.py`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
+
 Next, run `structral_parameters_screen.py`, note that it should be in the same directory as `config.ini`, `zeo_functions.py`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
 
 ```shell
@@ -60,10 +66,12 @@ python structral_parameters_screen.py
 ```
 
 如果配置正确的话，程序会显示进度条，结束之后会在控制台输出"Finish !"，此时可以在当前目录下看到`result.csv`和`zeo_results`，分别是计算结果汇总和zeo++的输出文件。
+
 If the configuration is correct, the program will display a progress bar and output "Finish !" in the console when it finishes, you can see `result.csv` and `zeo_results` in the current directory, which are the summary of the calculation results and the output file of zeo++, respectively.
 
 ### raspa_parse
 `raspa_parse.py`提供了简洁友好的API，用于解析RASPA输出文件。`RASPA_Output_Data`是核心类，封装了一系列解析方法，其构造器需传入RASPA输出文件的字符串作为参数。
+
 `raspa_parse.py` provides concise and friendly APIs for parsing RASPA output files. `RASPA_Output_Data` is the core class that encapsulates a set of parsing methods. Its constructor takes a string as an argument from the RASPA output file.
 
 |Method|Parameter|Function|Return Value|
@@ -79,6 +87,7 @@ get_components()|None|get components in the output file|List[string: component n
 
 #### 示例 (example)
 `RASPA_Output_Data`的构造器需传入RASPA输出文件的字符串作为参数。
+
 `RASPA_Output_Data` 's constructor takes a string as an argument from the RASPA output file.
 
 ```python
@@ -91,6 +100,7 @@ print(output.get_absolute_adsorption())
 
 ```
 你可以借助`RASPA_Output_Data`进行快速的批量结果统计，注意当输出文件很大时，会很耗费内存。
+
 You can use `RASPA_Output_Data` for quick batch result statistics. Note that when the output file is large, it will consume a lot of memory.
 
 
