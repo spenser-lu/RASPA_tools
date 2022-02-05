@@ -121,7 +121,7 @@ RASPA can only use single-core computing adsorption by default, but can submit t
 
 首先，根据自己的需求更改`config.ini`中的参数，注意`RSAPA_dir`最好使用绝对路径，`max_threads`建议设定为电脑的核心数。
 
-First, change the parameters in `config.ini` according to your needs. Note that `RSAPA_dir` is best used as an absolute path, and `max_threads` is recommended to be set to the number of cores of your computer.
+First, change the parameters in `config.ini` according to your needs. Note that `RSAPA_dir` is best set to an absolute path, and `max_threads` is recommended to be set to the number of cores of your computer.
 
 ```ini
 [ISOTHERM_CONFIG]
