@@ -155,9 +155,9 @@ CutOffVDM = 12.0
 
 ```
 
-接下来，修改`simulation_template.input`，你可以根据计算需求增加、删除或修改一些RASPA参数，程序会根据此模板动态生成RASPA的输入文件——`simulation.input`。请注意，下面这几行不能修改：
+接下来，修改`simulation_template.input`，你可以根据计算需求增加、删除或修改一些RASPA参数，程序会根据此模板动态生成RASPA的输入文件——`simulation.input`。***请注意，下面这几行不能修改***：
 
-Next, modify `simulation_template.input`, you can add, delete or modify some RASPA parameters according to the calculation requirements, and the program will dynamically generate the RASPA input file - `simulation.input` - based on this template. Please note that the following lines cannot be modified.
+Next, modify `simulation_template.input`, you can add, delete or modify some RASPA parameters according to the calculation requirements, and the program will dynamically generate the RASPA input file - `simulation.input` - based on this template.***Please note that the following lines cannot be modified***.
 ```
 FrameworkName {cif_name}
 CutOffVDW {cutoff}
