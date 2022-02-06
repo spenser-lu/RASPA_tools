@@ -178,7 +178,7 @@ ExternalPressure {pressure}
 Finally, run `main_isotherms.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
 
 ```shell
-python isotherms_main.py
+python main_isotherms.py
 ```
 
 在程序运行过程中，控制台会输出RASPA的日志，当前目录下会出现`RASPA_Output`和`results`文件夹，里面是分别是RASPA的输出文件和结果汇总文件。运行结束时，控制台会输出"Finish!"。
@@ -231,7 +231,7 @@ UnitCells {unitcell}
 Finally, run `main_adsorption.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
 
 ```shell
-python isotherms_main.py
+python main_adsorption.py
 ```
 
 在程序运行过程中，控制台会输出RASPA的日志，当前目录下会出现`RASPA_Output`文件夹和`adsorption_results.csv`文件，分别是RASPA的输出文件和结果汇总文件。运行结束时，控制台会输出"Finish!"。
