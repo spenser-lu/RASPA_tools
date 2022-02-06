@@ -1,0 +1,32 @@
+SimulationType                MonteCarlo
+NumberOfCycles                2000
+NumberOfInitializationCycles  100
+PrintEvery                    100
+RestartFile                   no
+
+Forcefield                    GenericMOFs
+UseChargesFromCIFFile         yes
+
+Framework 0
+FrameworkName {cif_name}
+CutOffVDW {cutoff}
+UnitCells {unitcell}
+
+ExternalTemperature 298
+ExternalPressure 1e5
+
+Component 0 MoleculeName             CO2
+            MoleculeDefinition       TraPPE
+            TranslationProbability   0.5
+            RotationProbability      0.5
+            ReinsertionProbability   0.5
+            SwapProbability          1.0
+            CreateNumberOfMolecules  0
+
+Component 1 MoleculeName             H2
+            MoleculeDefinition       TraPPE
+            TranslationProbability   0.5
+            RotationProbability      0.5
+            ReinsertionProbability   0.5
+            SwapProbability          1.0
+            CreateNumberOfMolecules  0

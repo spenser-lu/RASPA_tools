@@ -7,25 +7,32 @@ A collection of Python scripting tools for RASPA, which can be used for parallel
 ```
 ├── raspa_parse/   
   ├── raspa_parse.py      //用于解析RASPA输出文件的工具类
-├── zeo_calculate/        //使用zeo++计算结构参数
+
+├── zeo_calculate/        //使用zeo++批量计算结构参数
   ├── config.ini          //配置文件
-  ├── zeo_functions.py    //一些工具类和函数
   ├── structral_parameters_screen.py  //用于计算结构参数的主程序
-├── isotherms/       //计算等温线（支持多线程并行、多组分吸附）
+  
+├── isotherms/       //批量计算等温线（支持多线程并行、多组分吸附）
   ├── config.ini          //配置文件
   ├── simulation_template.input    //RASPA输入文件的模板
-  ├── functions_isotherms.py       //一些工具类和函数
   ├── main_isotherms.py   //计算等温线的主程序
+
+├── high_throughput_adsorption/    //批量进行吸附模拟
+  ├── config.ini          //配置文件
+  ├── simulation_template.input    //RASPA输入文件的模板
+  ├── main_adsorption.py   //批量进行吸附模拟的主程序
 ```
 ## 用法 (Usage)
-在使用之前，请在你的电脑上安装Python运行环境，版本3.0以上。
+在使用之前，请在你的电脑上安装Python运行环境，版本3.0以上。如果你在使用超算或者计算集群，建议使用相应的作业管理系统（如PBS、LSF等）运行脚本。
 
-Please install the Python 3.0 or higher version on your computer before using it.
+Please install the Python runtime environment, version 3.0 or higher, on your computer before using it. If you are using supercomputing or computing clusters, it is recommended to run the script using the appropriate job management system (e.g. PBS, LSF, etc.).
+
+***
 
 ### zeo_calculate
-[zeo++](http://www.zeoplusplus.org/)是一款功能强大的多孔材料结构分析工具，此脚本可极大的简化利用zeo++计算材料的结构参数的操作，并可以批量的进行大规模高通量模拟，支持多线程，并可以自动完成对结果的汇总统计。`zeo_calculate/` 里有三个文件，其中`config.ini`为配置文件，`zeo_functions.py`为一些工具类和函数的集合，`structral_parameters_screen.py`是运行程序的主函数。
+[zeo++](http://www.zeoplusplus.org/ )是一款功能强大的多孔材料结构分析工具，此脚本可极大的简化利用zeo++计算材料的结构参数的操作，并可以批量的进行大规模高通量模拟，支持多线程，并可以自动完成对结果的汇总统计。`zeo_calculate/` 里有两个文件，其中`config.ini`为配置文件，`structral_parameters_screen.py`是运行程序的主函数。
 
-zeo++ is a powerful tool for structural analysis of porous materials. This script greatly simplifies the operation of calculating structural parameters of materials with zeo++, and allows to perform large scale high throughput simulations in batch, supports multi-threading, and can automatically complete summary statistics of the results. There are three files in `zeo_calculate/`, `config.ini` is the configuration file, `zeo_functions.py` is a collection of tool classes and functions, and `structral_parameters_screen.py` is the main function to run the program.
+zeo++ is a powerful tool for structural analysis of porous materials. This script greatly simplifies the operation of calculating structural parameters of materials with zeo++, and allows to perform large scale high throughput simulations in batch, supports multi-threading, and can automatically complete summary statistics of the results. There are two files in `zeo_calculate/`, `config.ini` is the configuration file, and `structral_parameters_screen.py` is the main function to run the program.
 
 首先根据自己的需求更改`config.ini`中的参数，注意`zeo++_dir`最好使用绝对路径，`number_of_threads`建议设定为电脑的核心数。
 
@@ -61,9 +68,9 @@ porosity_monte_carlo_samples = 100000
 # 输出文件的名称，大多数情况下无需更改（The name of the output file, in most cases does not need to be changed）
 output_file_name = result.csv
 ```
-接下来运行`structral_parameters_screen.py`，注意要和`config.ini`，`functions_isotherms`和`zeo_functions.py`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
+接下来运行`structral_parameters_screen.py`，注意要和`config.ini`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
 
-Next, run `structral_parameters_screen.py`, note that it should be in the same directory as `config.ini`, `functions_isotherms` and `zeo_functions.py`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
+Next, run `structral_parameters_screen.py`, note that it should be in the same directory as `config.ini`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
 
 ```shell
 python structral_parameters_screen.py
@@ -135,7 +142,7 @@ RASPA_dir = /usr/local/RASPA
 # If only one CIF needs to be calculated, set this parameter to the location of the CIF file.
 # If multiple CIFs need to be calculated, set this parameter to the directory of the CIF files.
 # The program will traverse all CIF files in the directory and calculate isotherms
-cif_location = ../test_cifs/IRMOF-1.cif
+cif_location = ../test_cifs/
 
 # 建议设定为cpu的核心数
 # Set this parameter to the number of CPU cores on your computer
@@ -157,7 +164,7 @@ CutOffVDM = 12.0
 
 接下来，修改`simulation_template.input`，你可以根据计算需求增加、删除或修改一些RASPA参数，程序会根据此模板动态生成RASPA的输入文件——`simulation.input`。***请注意，下面这几行不能修改***：
 
-Next, modify `simulation_template.input`, you can add, delete or modify some RASPA parameters according to the calculation requirements, and the program will dynamically generate the RASPA input file - `simulation.input` - based on this template.***Please note that the following lines cannot be modified***.
+Next, modify `simulation_template.input`, you can add, delete or modify some RASPA parameters according to the calculation requirements, and the program will dynamically generate the RASPA input file - `simulation.input` - based on this template. ***Please note that the following lines cannot be modified***.
 ```
 FrameworkName {cif_name}
 CutOffVDW {cutoff}
@@ -174,6 +181,59 @@ Finally, run `isotherms_main.py`, note that it must be in the same directory as 
 python isotherms_main.py
 ```
 
-在程序运行过程中，控制台会输出RASPA的日志，当前目录下会出现一些以CIF名称命名的文件夹，里面是RASPA的输出文件，还有一个`results`目录，里面是结果汇总的`.csv`格式的文件。运行结束时，控制台会输出"Finish!"。
+在程序运行过程中，控制台会输出RASPA的日志，当前目录下会出现`RASPA_Output`和`results`文件夹，里面是分别是RASPA的输出文件和结果汇总文件。运行结束时，控制台会输出"Finish!"。
 
-While the program is running, the console will output the RASPA log, some folders with the same name as CIF will appear in the current directory, containing the output files of RASPA, and a `results` directory, containing the results summary in `.csv` format. At the end of the run, the console will output "Finish!"
+During the running of the program, the console will output the RASPA log, and the `RASPA_Output` and `results` folders will appear in the current directory, which are the RASPA output files and the result summary files respectively. At the end of the run, the console will output "Finish!".
+
+***
+
+### high_throughput_adsorption
+有时我们需要对大量的材料进行吸附模拟，这时候此脚本就会派上用场。笔者对上述的`main_isotherms.py`稍作修改，便有了`main_adsorption.py`，支持多线程并行模拟多个材料，并自动完成对模拟结果的汇总，同样支持多组分吸附。
+
+Sometimes we need to perform adsorption simulations on a large number of materials, and this is where this script comes in handy.  I modified the above `main_isotherms.py` a little bit, then there is `main_adsorption.py`, which supports multi-threads parallel simulation of multiple materials, and automatically completes the aggregation of simulation results, also supports multi-components adsorption.
+
+它的使用方法与`main_isotherms.py`很接近。首先，根据自己的需求更改`config.ini`中的参数，注意`RSAPA_dir`最好使用绝对路径，`max_threads`建议设定为电脑的核心数。
+
+Its usage is very close to `main_isotherms.py`. First, change the parameters in `config.ini` according to your needs. Note that `RSAPA_dir` is best set to an absolute path, and `max_threads` is recommended to be set to the number of cores of your computer.
+
+```ini
+[ADSORPTION_CONFIG]
+
+# RASPA的安装目录，即/bin, /lib, /share所在目录
+# The installation directory of RASPA, that is, the directory where /bin, /lib, /share are located
+RASPA_dir = /usr/local/RASPA
+
+# 设定为cif文件所在目录，程序会遍历目录中所有的cif文件并使用RASPA进行吸附模拟
+# Set this parameter to the directory of the CIF files.
+# The program will traverse all the cif files in the directory and use RASPA for adsorption simulation
+cif_location = ../test_cifs/
+
+# 建议设定为cpu的核心数
+# Set this parameter to the number of CPU cores on your computer
+max_threads = 10
+
+# 范德华力的截断半径，单位是埃
+# Cutoff radius of van der Waals force in Angstroms
+CutOffVDM = 12.0
+
+```
+接下来，修改`simulation_template.input`，你可以根据计算需求增加、删除或修改一些RASPA参数，程序会根据此模板动态生成RASPA的输入文件——`simulation.input`。***请注意，下面这几行不能修改***：
+
+Next, modify `simulation_template.input`, you can add, delete or modify some RASPA parameters according to the calculation requirements, and the program will dynamically generate the RASPA input file - `simulation.input` - based on this template. ***Please note that the following lines cannot be modified***.
+
+```
+FrameworkName {cif_name}
+CutOffVDW {cutoff}
+UnitCells {unitcell}
+```
+最后，运行`isotherms_main.py`，注意要和`config.ini`，`simulation_template.input`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
+
+Finally, run `isotherms_main.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
+
+```shell
+python isotherms_main.py
+```
+
+在程序运行过程中，控制台会输出RASPA的日志，当前目录下会出现`RASPA_Output`文件夹和`adsorption_results.csv`文件，分别是RASPA的输出文件和结果汇总文件。运行结束时，控制台会输出"Finish!"。
+
+During the running process of the program, the console will output the RASPA log, and the `RASPA_Output` folder and the `adsorption_results.csv` file will appear in the current directory, which are the RASPA output files and the result summary file respectively. At the end of the run, the console will output "Finish!".
