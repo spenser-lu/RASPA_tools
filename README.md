@@ -122,9 +122,9 @@ You can use `RASPA_Output_Data` for quick batch result statistics. Note that whe
 
 
 ### isotherms
-RASPA 默认情况下只能使用单核计算吸附，但是可以同时提交多个压力点的任务来实现多线程计算等温线。`isotherms_main.py` 可以自动化的完成上述过程，并快速进行结果汇总（基于`RASPA_Output_Data`），对于多组分吸附的输出文件也能正常解析。
+RASPA 默认情况下只能使用单核计算吸附，但是可以同时提交多个压力点的任务来实现多线程计算等温线。`main_isotherms.py` 可以自动化的完成上述过程，并快速进行结果汇总（基于`RASPA_Output_Data`），对于多组分吸附的输出文件也能正常解析。
 
-RASPA can only use single-core computing adsorption by default, but can submit tasks for multiple pressure points at the same time to achieve multi-threads computing isotherms. `isotherms_main.py` can automate the above process and quickly summarize the results (based on `RASPA_Output_Data`), and can also parse the output file of multi-components adsorption normally.
+RASPA can only use single-core computing adsorption by default, but can submit tasks for multiple pressure points at the same time to achieve multi-threads computing isotherms. `main_isotherms.py` can automate the above process and quickly summarize the results (based on `RASPA_Output_Data`), and can also parse the output file of multi-components adsorption normally.
 
 首先，根据自己的需求更改`config.ini`中的参数，注意`RSAPA_dir`最好使用绝对路径，`max_threads`建议设定为电脑的核心数。
 
@@ -173,9 +173,9 @@ ExternalTemperature {temperature}
 ExternalPressure {pressure}
 ```
 
-最后，运行`isotherms_main.py`，注意要和`config.ini`，`simulation_template.input`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
+最后，运行`main_isotherms.py`，注意要和`config.ini`，`simulation_template.input`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
 
-Finally, run `isotherms_main.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
+Finally, run `main_isotherms.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
 
 ```shell
 python isotherms_main.py
@@ -226,9 +226,9 @@ FrameworkName {cif_name}
 CutOffVDW {cutoff}
 UnitCells {unitcell}
 ```
-最后，运行`isotherms_main.py`，注意要和`config.ini`，`simulation_template.input`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
+最后，运行`main_adsorption.py`，注意要和`config.ini`，`simulation_template.input`在一个目录下，可以使用VS Code或Pycharm等IDE，或者直接在终端运行：
 
-Finally, run `isotherms_main.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
+Finally, run `main_adsorption.py`, note that it must be in the same directory as `config.ini`, `simulation_template.input`, you can use IDE such as VS Code or Pycharm, or run it directly in the terminal:
 
 ```shell
 python isotherms_main.py
