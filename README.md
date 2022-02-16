@@ -23,9 +23,9 @@ A collection of Python scripting tools for RASPA, which can be used for parallel
   ├── main_adsorption.py   //批量进行吸附模拟的主程序
 ```
 ## 用法 (Usage)
-在使用之前，请在你的电脑上安装Python运行环境，版本3.0以上。如果你在使用超算或者计算集群，建议使用相应的作业管理系统（如PBS、LSF等）运行脚本。
+在使用之前，请在你的电脑上安装Python运行环境，版本3.0以上。如果你在使用超算或者计算集群，**请勿**使用相应的作业管理系统（如PBS、LSF等）运行脚本。
 
-Please install the Python runtime environment, version 3.0 or higher, on your computer before using it. If you are using supercomputing or computing clusters, it is recommended to run the script using the appropriate job management system (e.g. PBS, LSF, etc.).
+Please install the Python runtime environment, version 3.0 or higher, on your computer before using it. If you are using supercomputing or computing clusters, **Don't** run the script using the appropriate job management system (e.g. PBS, LSF, etc.).
 
 ***
 
