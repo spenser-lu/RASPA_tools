@@ -118,3 +118,31 @@ class RASPA_Output_Data():
         for i, j in zip(self.components, data):
             result[i] = j
         return result
+
+    def get_all_adsorption_result(self):
+        '''
+            返回值是一个字典 (dic)，包含各组分各单位的吸附量数据
+            键的命名格式为"component_absulute_unit" (绝对吸附量)，"component_absulute_unit" (超额吸附量)
+            例如dic["H2_absolute_mol/kg"]的值表示H2的绝对吸附量，单位是mol/kg
+            此外，dic["finished"]表示是否已完成，dic["warning"]表示警告信息
+        '''
+        res = {}
+        units = ['mol/uc', 'cm^3/g', 'mol/kg', 'mg/g', 'cm^3/cm^3']
+        res["finished"] = str(is_finished())
+        res["warning"] = ""
+        if res["finished"] == 'True':
+            for w in get_warnings():
+                res["warning"] += (w + "; ")
+
+            for unit in units:
+                absolute_capacity = get_absolute_adsorption(unit=unit)
+                excess_capacity = get_excess_adsorption(unit=unit)
+                for c in self.components:
+                    res[c + "_absolute_" + unit] = absolute_capacity[c]
+                    res[c + "_excess_" + unit] = excess_capacity[c]
+        else:
+            for unit in units:
+                for c in components:
+                    res[c + "_absolute_" + unit] = " "
+                    res[c + "_excess_" + unit] = " "
+        return res
