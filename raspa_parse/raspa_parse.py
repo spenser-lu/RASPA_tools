@@ -128,15 +128,15 @@ class RASPA_Output_Data():
         '''
         res = {}
         units = ['mol/uc', 'cm^3/g', 'mol/kg', 'mg/g', 'cm^3/cm^3']
-        res["finished"] = str(is_finished())
+        res["finished"] = str(self.is_finished())
         res["warning"] = ""
         if res["finished"] == 'True':
-            for w in get_warnings():
+            for w in self.get_warnings():
                 res["warning"] += (w + "; ")
 
             for unit in units:
-                absolute_capacity = get_absolute_adsorption(unit=unit)
-                excess_capacity = get_excess_adsorption(unit=unit)
+                absolute_capacity = self.get_absolute_adsorption(unit=unit)
+                excess_capacity = self.get_excess_adsorption(unit=unit)
                 for c in self.components:
                     res[c + "_absolute_" + unit] = absolute_capacity[c]
                     res[c + "_excess_" + unit] = excess_capacity[c]
