@@ -65,11 +65,11 @@ class RASPA_Output_Data():
             若不指定单位，默认为cm^3/g
             unit: 'mol/uc','cm^3/g','mol/kg','mg/g','cm^3/cm^3'
         '''
-        patterns = {'mol/uc': r"Average loading excess \[molecules/unit cell\]\s+(\d+\.?\d*)\s+",
-                    'cm^3/g': r"Average loading excess \[cm\^3 \(STP\)/gr framework\]\s+(\d+\.?\d*)\s+",
-                    'mol/kg': r"Average loading excess \[mol/kg framework\]\s+(\d+\.?\d*)\s+",
-                    'mg/g': r"Average loading excess \[milligram/gram framework\]\s+(\d+\.?\d*)\s+",
-                    'cm^3/cm^3': r"Average loading excess \[cm\^3 \(STP\)/cm\^3 framework\]\s+(\d+\.?\d*)\s+"
+        patterns = {'mol/uc': r"Average loading excess \[molecules/unit cell\]\s+(-?\d+\.?\d*)\s+",
+                    'cm^3/g': r"Average loading excess \[cm\^3 \(STP\)/gr framework\]\s+(-?\d+\.?\d*)\s+",
+                    'mol/kg': r"Average loading excess \[mol/kg framework\]\s+(-?\d+\.?\d*)\s+",
+                    'mg/g': r"Average loading excess \[milligram/gram framework\]\s+(-?\d+\.?\d*)\s+",
+                    'cm^3/cm^3': r"Average loading excess \[cm\^3 \(STP\)/cm\^3 framework\]\s+(-?\d+\.?\d*)\s+"
                     }
         if unit not in patterns.keys():
             raise ValueError('单位错误！')
@@ -85,11 +85,11 @@ class RASPA_Output_Data():
             若不指定单位，默认为cm^3/g
             unit: 'mol/uc','cm^3/g','mol/kg','mg/g','cm^3/cm^3'
         '''
-        patterns = {'mol/uc': r"Average loading absolute \[molecules/unit cell\]\s+(\d+\.?\d*)\s+",
-                    'cm^3/g': r"Average loading absolute \[cm\^3 \(STP\)/gr framework\]\s+(\d+\.?\d*)\s+",
-                    'mol/kg': r"Average loading absolute \[mol/kg framework\]\s+(\d+\.?\d*)\s+",
-                    'mg/g': r"Average loading absolute \[milligram/gram framework\]\s+(\d+\.?\d*)\s+",
-                    'cm^3/cm^3': r"Average loading absolute \[cm\^3 \(STP\)/cm\^3 framework\]\s+(\d+\.?\d*)\s+"
+        patterns = {'mol/uc': r"Average loading absolute \[molecules/unit cell\]\s+(-?\d+\.?\d*)\s+",
+                    'cm^3/g': r"Average loading absolute \[cm\^3 \(STP\)/gr framework\]\s+(-?\d+\.?\d*)\s+",
+                    'mol/kg': r"Average loading absolute \[mol/kg framework\]\s+(-?\d+\.?\d*)\s+",
+                    'mg/g': r"Average loading absolute \[milligram/gram framework\]\s+(-?\d+\.?\d*)\s+",
+                    'cm^3/cm^3': r"Average loading absolute \[cm\^3 \(STP\)/cm\^3 framework\]\s+(-?\d+\.?\d*)\s+"
                     }
         if unit not in patterns.keys():
             raise ValueError('单位错误！')
@@ -98,34 +98,6 @@ class RASPA_Output_Data():
         for i, j in zip(self.components, data):
             result[i] = j
         return result
-
-    def get_adsorption_heat(self):
-        '''
-            返回吸附热(KJ/mol)
-            返回值是一个字典，键是吸附质的名称，值是吸附热;
-        '''
-        result = {}
-        if len(self.components) > 1:
-            pattern = r'Component \d+ \[(.*)\]\n\s*-*\n.*\n.*\n.*\n.*\n.*\n\s*-*\n.*\n\s+(\-?\d+\.?\d*)\s'
-        else:
-            pattern = r'Enthalpy of adsorption:\n.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*\n\s+(\-?\d+\.?\d*)\s'
-        data = re.findall(pattern, self.output_string)
-        for i, j in zip(self.components, data):
-            result[i] = j
-        return result
-
-    def get_henry_coefficient(self):
-        '''
-            返回亨利系数(mol/kg/Pa)
-            返回值是一个字典，键是吸附质的名称，值是亨利系数;
-        '''
-        pattern = r'\[.*\]\s+Average Henry coefficient:\s+(\d+\.?\d*)\s+'
-        data = re.findall(pattern, self.output_string)
-        result = {}
-        for i, j in zip(self.components, data):
-            result[i] = j
-        return result
-
 
 def get_unit_cell(cif_location, cutoff):
     with open(cif_location, 'r') as f:
@@ -205,7 +177,7 @@ def work(cif_dir: str, cif_file: str, RASPA_dir: str, pressure: str, input_text:
         except Exception as e:
             write_error(result_file, pressure)
             print("\033[0;37;41m\n{}__{} error: {} !\n\033[0m".format(
-                cif_name, pressure, e))
+                cif_name, pressure, repr(e)))
         lock.release()
     else:
         lock.acquire()
@@ -269,7 +241,7 @@ def write_result(result_file, result: dict, headers: list):
 
 def write_error(result_file, pressure):
     with open(result_file, 'a') as f:
-        f.write(pressure + ",False,\n")
+        f.write(pressure + ",Error,\n")
         f.close()
 
 
