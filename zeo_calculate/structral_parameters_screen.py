@@ -15,10 +15,10 @@ class ProcessBar:
         self.curr = self.curr + 1
 
     def run(self):
-        percent = round(self.curr / self.total, 2)*100
+        percent = round(self.curr / self.total * 100, 2)
         print("\r", end="")
         print("Progress: {}{}%: ".format(
-            "▋" * int(percent // 4), str(percent)[:4]), end="")
+            "▋" * int(percent // 4), str(percent)), end="")
         sys.stdout.flush()
 
 
