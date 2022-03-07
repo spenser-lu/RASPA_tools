@@ -142,7 +142,7 @@ class RASPA_Output_Data():
                     res[c + "_excess_" + unit] = excess_capacity[c]
         else:
             for unit in units:
-                for c in components:
+                for c in self.components:
                     res[c + "_absolute_" + unit] = " "
                     res[c + "_excess_" + unit] = " "
         return res
