@@ -4,9 +4,9 @@ import re
 示例：
     with open('./output.data','r') as f:
         str = f.read()
-    output = RASPA_Output_Data(str)
-    print(output.is_finished())
-    print(output.get_absolute_adsorption())
+    parser = RASPA_Output_Data(str)
+    print(parser.is_finished())
+    print(parser.get_absolute_adsorption())
 
 '''
 
