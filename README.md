@@ -5,6 +5,7 @@
 A collection of Python scripting tools for RASPA, which can be used for parallel calculation of isotherms, high-throughput simulation, automatic calculation of structural parameters, batch result analysis, etc.
 
 **我已经毕业了，这个项目应该不会再维护了，如果有什么问题可以邮箱联系我（luxiuyang123@foxmail.com）**
+# 小白用户请先学会RASPA，再用此脚本帮你批处理！！！
 
 ## 项目结构 (Structure)
 
